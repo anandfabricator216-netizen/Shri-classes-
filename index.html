@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shri Classes | Admission Open</title>
+    <style>
+        :root {
+            --professional-dark-blue: #0A1931; /* भरोसेमंद क्लासिक एजुकेशन ब्लू */
+            --brand-red: #D92027;
+            --pure-white: #FFFFFF;
+            --light-bg: #F5F7FA;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light-bg);
+            color: #333;
+            overflow-x: hidden;
+            padding-top: 100px; /* Header के लिए जगह */
+        }
+
+        /* --- HEADER WITH POSTER BACKGROUND --- */
+        header {
+            /* Header में पोस्टर इमेज और ब्लू टिंट */
+            background: linear-gradient(rgba(10, 25, 49, 0.85), rgba(10, 25, 49, 0.85)), url('poster.jpg') center/cover;
+            padding: 15px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            transition: top 0.5s cubic-bezier(0.4, 0, 0.2, 1); /* Smooth gayab hona */
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--pure-white);
+        }
+
+        .logo-container h1 { color: var(--pure-white); font-size: 28px; }
+        .logo-container span { color: var(--brand-red); }
+
+        nav ul { list-style: none; display: flex; gap: 20px; }
+        nav ul li a { color: var(--pure-white); text-decoration: none; font-weight: 600; }
+
+        .btn-nav {
+            background-color: var(--brand-red);
+            color: var(--pure-white);
+            padding: 10px 22px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        /* Hero Section - Poster with Dark Overlay */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('poster.jpg') center/cover;
+            height: 65vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            margin-top: -100px; /* Header के upar overlay ke liye */
+        }
+
+        .hero h2 { color: var(--pure-white); font-size: 45px; margin-bottom: 20px; }
+        .hero p { color: #eee; font-size: 20px; margin-bottom: 30px; max-width: 750px; }
+
+        .btn-main {
+            background-color: var(--brand-red);
+            color: var(--pure-white);
+            padding: 18px 35px;
+            font-size: 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(217, 32, 39, 0.4);
+        }
+
+        /* Sections and Cards */
+        .courses-section { padding: 80px 20px; text-align: center; background: white; }
+        .section-title { color: var(--professional-dark-blue); font-size: 36px; margin-bottom: 40px; }
+        .cards-container { display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; }
+        .card { border: 1px solid #ddd; border-top: 6px solid var(--professional-dark-blue); border-radius: 10px; padding: 35px; width: 330px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .card.special { border-top-color: var(--brand-red); background: #fffafa; }
+
+        /* Features Section */
+        .features {
+            background-color: var(--professional-dark-blue);
+            color: var(--pure-white);
+            padding: 60px 20px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            text-align: center;
+        }
+
+        .feature-box { width: 260px; margin: 20px; }
+        .feature-box h4 { color: #FFD700; font-size: 22px; margin-bottom: 12px; } /* Gold color for contrast */
+
+        footer { background: #061122; color: white; text-align: center; padding: 30px; }
+
+        /* --- MODAL / FORM STYLES --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none; justify-content: center; align-items: center;
+            z-index: 2000; opacity: 0; transition: opacity 0.4s ease;
+        }
+        .modal-content {
+            background: white; width: 90%; max-width: 450px; padding: 40px; border-radius: 12px; text-align: center; position: relative;
+        }
+        .modal-overlay.active { display: flex; opacity: 1; }
+        
+        /* ADMISSION FORM SPECIFICS */
+        .admission-form input, .admission-form select {
+            width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc;
+            border-radius: 5px; font-size: 16px;
+        }
+        .submit-btn {
+            width: 100%; background-color: var(--professional-dark-blue); color: white;
+            padding: 15px; border: none; border-radius: 5px; font-size: 18px;
+            font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.3s;
+        }
+        .submit-btn:hover { background-color: var(--brand-red); }
+
+        /* SUCCESS MODAL SPECIFICS */
+        .success-logo { width: 100px; height: 100px; border-radius: 50%; margin-bottom: 20px; border: 3px solid var(--brand-red); }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            header { flex-direction: column; padding: 20px; gap: 10px; }
+            .hero h2 { font-size: 32px; }
+            nav ul { font-size: 14px; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header id="main-header">
+        <div class="logo-container">
+            <img src="logo.jpg" alt="Logo" class="header-logo">
+            <h1>Shri <span>Classes</span></h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Batches</a></li>
+                <li><a href="#">About Us</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+        <a href="#" class="btn-nav" onclick="openAdmissionForm()">Apply Now</a>
+    </header>
+
+    <section class="hero">
+        <h2>Quality Education, Bright Future</h2>
+        <p>Most trusted classes for 5th to 12th standard. Join us to bridge the gap between learning and success.</p>
+        <button class="btn-main" onclick="openAdmissionForm()">Click here for Admission</button>
+    </section>
+
+    <section class="courses-section">
+        <h2 class="section-title">Our Main <span>Batches</span></h2>
+        <div class="cards-container">
+            <div class="card">
+                <h3>5th to 10th Std</h3>
+                <p>Focus on strong basics and board preparation with regular tests.</p>
+            </div>
+            <div class="card special">
+                <h3>⭐ Bridge Course</h3>
+                <p>Special 11th to 12th transition batch for all subjects.</p>
+            </div>
+            <div class="card">
+                <h3>11th & 12th Board</h3>
+                <p>In-depth coaching for Science and Commerce streams.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="features">
+        <div class="feature-box">
+            <h4>Experienced Faculty</h4>
+            <p>Guidance from teachers with over 15+ years of experience.</p>
+        </div>
+        <div class="feature-box">
+            <h4>Regular Assessment</h4>
+            <p>Weekly test series to track every student's progress.</p>
+        </div>
+        <div class="feature-box">
+            <h4>Personal Attention</h4>
+            <p>Small batch sizes ensuring focus on every individual child.</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 Shri Classes. Thane, Maharashtra.</p>
+    </footer>
+
+    <div class="modal-overlay" id="admissionFormModal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeAdmissionForm()" style="position: absolute; top: 15px; right: 20px; font-size: 30px; cursor: pointer; color: var(--professional-dark-blue);">&times;</span>
+            <h2 style="color: var(--professional-dark-blue); border-bottom: 2px solid var(--brand-red); padding-bottom: 10px; margin-bottom: 20px;">Student Admission Form</h2>
+            <form class="admission-form" onsubmit="handleFormSubmission(event)">
+                <input type="text" placeholder="Student Full Name" required>
+                <input type="text" placeholder="Parent/Father's Name" required>
+                <input type="tel" placeholder="Mobile Number" required>
+                <select required>
+                    <option value="" disabled selected>Select Class</option>
+                    <option value="5-7">5th to 7th Std</option>
+                    <option value="8-10">8th to 10th Std</option>
+                    <option value="11-12">11th & 12th Board</option>
+                    <option value="bridge">Special Bridge Course</option>
+                </select>
+                <p style="font-size: 13px; color: #666; margin-top: 5px; text-align: left;">* Our team will call you within 24 hours.</p>
+                <button type="submit" class="submit-btn">Submit Application</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="admissionSuccessModal">
+        <div class="modal-content">
+            <img src="logo.jpg" alt="Logo" class="success-logo">
+            <h2 style="color: var(--brand-red); margin-bottom: 15px;">Admission Successful!</h2>
+            <p style="color: #333; margin-bottom: 25px; line-height: 1.6;">
+                Dear Student, thanks for your admission request to Shri Classes. We will review your details and contact you soon!
+            </p>
+            <button onclick="closeSuccessModal()" style="background: var(--professional-dark-blue); color: white; padding: 12px 40px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">OK</button>
+        </div>
+    </div>
+
+    <script>
+        // --- HEADER SCROLL LOGIC (STRICT TOP) ---
+        const header = document.getElementById('main-header');
+
+        window.addEventListener('scroll', function() {
+            let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // Niche scroll karte hi (50px ke baad) gayab
+            if (scrollTop > 50) {
+                header.style.top = "-160px"; 
+            } 
+            // Jab bilkul 0 par wapas aaye tabhi dikhega
+            if (scrollTop === 0) {
+                header.style.top = "0"; 
+            }
+        });
+
+        // --- MODAL / FORM LOGIC (FIXED FLOW) ---
+        function openAdmissionForm() {
+            // First, open the student form
+            const formModal = document.getElementById('admissionFormModal');
+            formModal.style.display = 'flex';
+            setTimeout(() => formModal.classList.add('active'), 10);
+        }
+
+        function closeAdmissionForm() {
+            const formModal = document.getElementById('admissionFormModal');
+            formModal.classList.remove('active');
+            setTimeout(() => formModal.style.display = 'none', 400);
+        }
+
+        function openSuccessModal() {
+            // Open the success branded pop-up
+            const successModal = document.getElementById('admissionSuccessModal');
+            successModal.style.display = 'flex';
+            setTimeout(() => successModal.classList.add('active'), 10);
+        }
+
+        function closeSuccessModal() {
+            const successModal = document.getElementById('admissionSuccessModal');
+            successModal.classList.remove('active');
+            setTimeout(() => successModal.style.display = 'none', 400);
+        }
+
+        function handleFormSubmission(event) {
+            event.preventDefault(); // Stop default browser behavior
+            closeAdmissionForm(); // Close the student form
+            setTimeout(() => {
+                openSuccessModal(); // Open the new success branded pop-up
+            }, 400); // Wait for form close animation
+        }
+
+        // Close any open modal if user clicks outside the content
+        window.onclick = function(event) {
+            const formModal = document.getElementById('admissionFormModal');
+            const successModal = document.getElementById('admissionSuccessModal');
+            if (event.target == formModal) {
+                closeAdmissionForm();
+            }
+            if (event.target == successModal) {
+                closeSuccessModal();
+            }
+        }
+    </script>
+
+</body>
+</html>
